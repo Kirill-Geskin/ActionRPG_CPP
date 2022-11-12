@@ -2,15 +2,25 @@
 
 
 #include "Critter.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
+
 ACritter::ACritter()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-}
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
+	MeshComponent->SetupAttachment(GetRootComponent());
 
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(GetRootComponent());
+	Camera->SetRelativeLocation(FVector(-300.0f, 0.0f, 300.0f));
+	Camera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
+
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
+}
 // Called when the game starts or when spawned
 void ACritter::BeginPlay()
 {

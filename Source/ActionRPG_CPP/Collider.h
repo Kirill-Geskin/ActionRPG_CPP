@@ -56,6 +56,13 @@ public:
 	FORCEINLINE USpringArmComponent* GetSpringArmComponent() { return SpringArm; }
 	FORCEINLINE void SetSpringArm(USpringArmComponent* InSpringArm) { InSpringArm = SpringArm; }
 
+private:
+
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+
+	void CameraPitch(float Value);
+	void CameraYaw(float Value);
+
+	FVector2D CameraInput;
 };

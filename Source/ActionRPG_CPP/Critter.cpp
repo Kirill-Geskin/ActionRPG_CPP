@@ -3,6 +3,7 @@
 
 #include "Critter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 
@@ -11,7 +12,7 @@ ACritter::ACritter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
+	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(GetRootComponent());
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
@@ -19,8 +20,10 @@ ACritter::ACritter()
 	Camera->SetRelativeLocation(FVector(-300.0f, 0.0f, 300.0f));
 	Camera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	//AutoPossessPlayer = EAutoReceiveInput::Player0;
+
 	CurrentVelocity = FVector(0.f);
+	MaxSpeed = 100.f;
 }
 // Called when the game starts or when spawned
 void ACritter::BeginPlay()

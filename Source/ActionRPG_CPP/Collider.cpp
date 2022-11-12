@@ -2,6 +2,7 @@
 
 
 #include "Collider.h"
+#include "ColliderMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
@@ -44,6 +45,9 @@ ACollider::ACollider()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+
+	OurMovementComponent = CreateDefaultSubobject<UColliderMovementComponent>(TEXT("OurMovementComponent"));
+	OurMovementComponent->UpdatedComponent = RootComponent;
 }
 
 // Called when the game starts or when spawned
@@ -73,12 +77,23 @@ void ACollider::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ACollider::MoveForward(float Value)
 {
 	FVector Forward = GetActorForwardVector();
-	AddMovementInput(Value * Forward);
+	if (OurMovementComponent)
+	{
+		OurMovementComponent->AddInputVector(Value * Forward);
+	}
 }
 
 void ACollider::MoveRight(float Value)
 {
 	FVector Right = GetActorRightVector();
-	AddMovementInput(Value * Right);
+	if (OurMovementComponent)
+	{
+		OurMovementComponent->AddInputVector(Value * Right);
+	}
+	
 }
 
+UPawnMovementComponent* ACollider::GetMovementComponent() const
+{
+	return OurMovementComponent;
+}

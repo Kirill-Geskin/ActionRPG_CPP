@@ -2,7 +2,6 @@ Binaries
 DerivedDataCache
 Intermediate
 Saved
-Content\Maps
 .vscode
 .vs
 *.VC.db
@@ -13,3 +12,5 @@ Content\Maps
 *.suo
 *.xcodeproj
 *.xcworkspace
+Content/Maps/SunTemple_BuiltData.uasset
+Content/Maps/SunTemple.umap

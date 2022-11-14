@@ -15,17 +15,19 @@ class ACTIONRPG_CPP_API UMainAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 public:
 
+	//override native anim class func 
 	virtual void NativeInitializeAnimation() override;
 
+	//work as a Tick in some UE classes
 	UFUNCTION(BlueprintCallable, Category = AnimationProperties)
-		void UpdateAnimationProperties();
+	void UpdateAnimationProperties();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement)
-		float MovementSpeed;
+	float MovementSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement)
-		bool bIsInAir;
+	bool bIsInAir;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement)
-		class APawn* Pawn;
+	class APawn* Pawn;
 };

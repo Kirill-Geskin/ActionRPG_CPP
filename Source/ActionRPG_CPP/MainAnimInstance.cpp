@@ -6,13 +6,13 @@
 
 void UMainAnimInstance::NativeInitializeAnimation()
 {
-	if (Pawn == nullptr)
+	if (Pawn == nullptr) 
 	{
 		Pawn = TryGetPawnOwner();
 	}
 }
 
-void UMainAnimInstance::UpdateAnimationProperties()
+void UMainAnimInstance::UpdateAnimationProperties() 
 {
 	if (Pawn == nullptr)
 	{
@@ -21,9 +21,9 @@ void UMainAnimInstance::UpdateAnimationProperties()
 
 	if (Pawn)
 	{
-		FVector Speed = Pawn->GetVelocity();
+		FVector Speed = Pawn->GetVelocity(); // GetVelocity() - built-in standart Pawn function. Return speed of Pawn 
 		FVector LateralSpeed = FVector(Speed.X, Speed.Y, 0.f); //we intrsted only in horizontal direction, that why Z == 0 
-		MovementSpeed = LateralSpeed.Size();
+		MovementSpeed = LateralSpeed.Size(); // update MovementSpeed
 
 		bIsInAir = Pawn->GetMovementComponent()->IsFalling();
 	}

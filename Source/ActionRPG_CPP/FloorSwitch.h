@@ -1,3 +1,9 @@
+/*
+Based on this class, a blueprint is created. 
+Which uses both functions from CPP and functionality inside the blueprint. 
+For example, Timiline is used to move meshes smoothly. 
+It turns out a hybrid between CPP and Blueprint
+*/
 
 #pragma once
 
@@ -25,6 +31,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Floor Switch")
 	class UStaticMeshComponent* Door;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Floor Switch")
+	FVector InitailDoorLocation;
+	
+	UPROPERTY(BlueprintReadWrite, Category = "Floor Switch")
+	FVector InitialSwitchLocation;
+
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -40,4 +53,23 @@ public:
 
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Switch")
+	void RaiseDoor();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Switch")
+	void LowerDoor();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Switch")
+	void RaiseFloorSwitch();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Switch")
+	void LowerFloorSwitch();
+
+	UFUNCTION(BlueprintCallable, Category = "Floor Switch")
+	void UpdateDoorLocation(float ZDoorLocation);
+
+	UFUNCTION(BlueprintCallable, Category = "Floor Switch")
+	void UpdateSwitchLocation(float ZSwitchLocation);
+
 };

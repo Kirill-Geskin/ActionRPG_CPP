@@ -1,3 +1,9 @@
+/*
+Based on this class, a blueprint is created.
+Which uses both functions from CPP and functionality inside the blueprint.
+For example, Timiline is used to move meshes smoothly.
+It turns out a hybrid between CPP and Blueprint
+*/
 
 #include "FloorSwitch.h"
 #include "Components/BoxComponent.h"
@@ -10,7 +16,7 @@ AFloorSwitch::AFloorSwitch()
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	RootComponent = TriggerBox;
 
-	//Collision param:
+	//Collision param for TriggerBox:
 	TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly); 
 	TriggerBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 	TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);// if we ignore (ECR_Ignore) everything, after we can choose and setup specific chanel
@@ -32,6 +38,9 @@ void AFloorSwitch::BeginPlay()
 	// when overlaps is begin we use OnComponentBeginOverlap. When averlaps end OnComponentEndOverlap
 	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AFloorSwitch::OnOverlapBegin);
 	TriggerBox->OnComponentEndOverlap.AddDynamic(this, &AFloorSwitch::OnOverlapEnd);
+
+	InitailDoorLocation = Door->GetComponentLocation();
+	InitialSwitchLocation = FloorSwitch->GetComponentLocation();
 }
 
 void AFloorSwitch::Tick(float DeltaTime)
@@ -43,10 +52,28 @@ void AFloorSwitch::Tick(float DeltaTime)
 void AFloorSwitch::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlap Begin"));
+	RaiseDoor();
+	LowerFloorSwitch();
 }
 
 void AFloorSwitch::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlap End"));
+	LowerDoor();
+	RaiseFloorSwitch();
+}
+
+void AFloorSwitch::UpdateDoorLocation(float ZDoorLocation)
+{
+	FVector NewLocation = InitailDoorLocation;
+	NewLocation.Z += ZDoorLocation;
+	Door->SetWorldLocation(NewLocation);
+}
+
+void AFloorSwitch::UpdateSwitchLocation(float ZSwitchLocation)
+{
+	FVector NewLocation = InitialSwitchLocation;
+	NewLocation.Z += ZSwitchLocation;
+	FloorSwitch->SetWorldLocation(NewLocation);
 }
 
